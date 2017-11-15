@@ -1,6 +1,6 @@
 package connection;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.PrintStream;
 import java.util.Scanner;
 
 public class BotsBuildBots {
@@ -8,11 +8,10 @@ public class BotsBuildBots {
     public static String nick;
     public static String username;
     public static String realName;
-    public static PrintWriter out;
+    public static PrintStream out;
     public static Scanner in;
     public static String serverMessage;
     public static String channel = "#jsldfkjsdlfk";
-    public String searchquery;
 
 
     public static void main(String[] args) throws IOException {
@@ -32,17 +31,18 @@ public class BotsBuildBots {
         }
 
         Connect freenode = new Connect();
-        freenode.connection();
+        freenode.createSocket();
 
         write("NICK", nick);
         write("USER", username + " 0 * :" + realName);
         write("JOIN", channel);
 
-        while(in.hasNext()) {
+        while(in.hasNextLine()) {
             serverMessage = in.nextLine();
             System.out.println("<<< " + serverMessage);
             if(serverMessage.contains("/NAMES")) {
-                write("PRIVMSG", channel + " Dit is een teststring");
+                String str = channel + " " + "Dit is een teststring.";
+                write("PRIVMSG", str);
             }
             else if(serverMessage.contains("@reverse") || serverMessage.contains("@test")){
                 Commands.testReply(serverMessage);
@@ -61,10 +61,17 @@ public class BotsBuildBots {
         System.out.println("Done!");
     }
 
-    public static void write(String command, String message) throws NullPointerException {
+    public static void write(String command, String message) {
         String fullMessage = command + " " + message;
         System.out.println(">>> " + fullMessage);
-        out.print(fullMessage + "\r");
+        out.print(fullMessage + "\n\r");
+        out.flush();
+    }
+
+    public static void writeToChannel(String command, String message) {
+        String fullMessage = command + " " + channel + " " + message;
+        System.out.println(">>> " + fullMessage);
+        out.print(fullMessage + "\n\r");
         out.flush();
     }
 }

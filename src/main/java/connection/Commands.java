@@ -1,7 +1,7 @@
 package connection;
 
 import static connection.BotsBuildBots.channel;
-import static connection.BotsBuildBots.write;
+import static connection.BotsBuildBots.writeToChannel;
 
 
 public class Commands {
@@ -16,15 +16,13 @@ public class Commands {
             // command en parameter scheiden
             commandParts = substr.split(" ", 2);
             if (commandParts[0].equals("@test")) {
-                String str = channel + " " + "Test geslaagd";
                 System.out.println(commandParts[0]);
-                write("PRIVMSG", str);
+                writeToChannel("PRIVMSG", "Test geslaagd");
             }
             else if(commandParts[0].equals("@reverse")){
                     String reversed = new StringBuilder(commandParts[1]).reverse().toString();
                 System.out.println(commandParts[1]);
-                String rstr = channel + " " + "Reversed: " + reversed;
-                write("PRIVMSG",rstr);
+                writeToChannel("PRIVMSG", reversed);
                 }
         }
         catch (ArrayIndexOutOfBoundsException e) {

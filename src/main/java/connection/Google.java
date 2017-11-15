@@ -16,6 +16,7 @@ public class Google {
     public static String[] commandParts;
 
     public static void Google(String input) throws IOException {
+
         String substr = input.substring(input.indexOf(channel) + channel.length() + 2);
         commandParts = substr.split(" ", 2);
 
@@ -34,10 +35,14 @@ public class Google {
 
             //Execute search
             Search result = list.execute();
+            int i=0;
             if (result.getItems() != null) {
-                for (Result ri : result.getItems()) {
-                    //Get title, link, body etc. from search
-                    System.out.println(ri.getTitle() + ", " + ri.getLink());
+                while (i < 2) {
+                    for (Result ri : result.getItems()) {
+                        //Get title, link, body etc. from search
+                        System.out.println(ri.getTitle() + ", " + ri.getLink());
+                        i++;
+                    }
                 }
             }
         } catch (GeneralSecurityException e) {
@@ -45,5 +50,8 @@ public class Google {
         } finally{ System.out.println("Error");}
 
     }
-
 }
+
+
+
+
