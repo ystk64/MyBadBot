@@ -11,8 +11,8 @@ public class BotsBuildBots {
     public static PrintStream out;
     public static Scanner in;
     public static String serverMessage;
-    public static String channel = "#jsldfkjsdlfk";
-
+    public static String channel = "##w3tutorial";
+    public static final String channel1= "#jsldfkjsdlfk";
 
     public static void main(String[] args) throws IOException {
         Scanner console = new Scanner(System.in);
@@ -23,35 +23,30 @@ public class BotsBuildBots {
        // System.out.println("Enter real name");
        // realName = console.nextLine();
 
-
-
         if(!channel.startsWith("#")) {
             System.out.println("Channel has to start with #. Changing...");
             channel = "#" + channel;
         }
 
         Connect freenode = new Connect();
-        freenode.createSocket();
+        freenode.createSocket("chat.freenode.net", 6667);
 
         write("NICK", nick);
         write("USER", username + " 0 * :" + realName);
         write("JOIN", channel);
+        write("JOIN", channel1);
 
         while(in.hasNextLine()) {
             serverMessage = in.nextLine();
             System.out.println("<<< " + serverMessage);
-            if(serverMessage.contains("/NAMES")) {
-                String str = channel + " " + "Dit is een teststring.";
-                write("PRIVMSG", str);
-            }
-            else if(serverMessage.contains("@reverse") || serverMessage.contains("@test")){
+            if(serverMessage.contains("@reverse") || serverMessage.contains("@test")){
                 Commands.testReply(serverMessage);
             }
             else if (serverMessage.startsWith("PING")){
                 String ping = serverMessage.split(" ", 2)[1];
                 write("PONG", ping);
             }
-            else if(serverMessage.contains("@google")){
+            else if(serverMessage.contains("@google") || serverMessage.contains("@wiki")){
                 Google.Google(serverMessage);
             }
         }
@@ -68,10 +63,4 @@ public class BotsBuildBots {
         out.flush();
     }
 
-    public static void writeToChannel(String command, String message) {
-        String fullMessage = command + " " + channel + " " + message;
-        System.out.println(">>> " + fullMessage);
-        out.print(fullMessage + "\n\r");
-        out.flush();
-    }
 }

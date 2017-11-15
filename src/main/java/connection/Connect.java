@@ -11,9 +11,9 @@ import static connection.BotsBuildBots.out;
 
 class Connect {
 
-    void createSocket() throws IOException {
+    void createSocket(String host, int port) throws IOException {
 
-        Socket socket = new Socket("chat.freenode.net", 6667);
+        Socket socket = new Socket(host, port);
         out = new PrintStream(socket.getOutputStream(), true);
         in = new Scanner(new InputStreamReader(socket.getInputStream()));
 

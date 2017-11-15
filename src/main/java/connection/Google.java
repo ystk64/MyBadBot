@@ -11,18 +11,34 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 
 import static connection.BotsBuildBots.channel;
+import static connection.BotsBuildBots.channel1;
+import static connection.BotsBuildBots.write;
+import static connection.Commands.chan;
 
 public class Google {
     public static String[] commandParts;
+    public static String cx;
 
     public static void Google(String input) throws IOException {
 
-        String substr = input.substring(input.indexOf(channel) + channel.length() + 2);
+        if(input.contains(channel)) {
+            chan = channel;
+        }
+        else if(input.contains(channel1)){
+            chan = channel1;
+        }
+
+        String substr = input.substring(input.indexOf(chan) + chan.length() + 2);
         commandParts = substr.split(" ", 2);
 
         try {
             String searchQuery = commandParts[1]; //The query to search
-            String cx = "017159970878171620157:lk-ss4cvtek"; //Your search engine
+            if(input.contains("@google")) {
+                cx = "017159970878171620157:lk-ss4cvtek"; //Google custom search - whole web
+            }
+            else {
+                cx="000333651083524450345:g2hhfhdhsgw"; // Custom search - wikipedia only
+            }
 
             //Instance Customsearch
             Customsearch cs = new Customsearch.Builder(GoogleNetHttpTransport.newTrustedTransport(), JacksonFactory.getDefaultInstance(), null)
@@ -37,17 +53,18 @@ public class Google {
             Search result = list.execute();
             int i=0;
             if (result.getItems() != null) {
-                while (i < 2) {
-                    for (Result ri : result.getItems()) {
+                for (Result ri : result.getItems()) {
                         //Get title, link, body etc. from search
-                        System.out.println(ri.getTitle() + ", " + ri.getLink());
+                        if (i==1) { break; }
+                        write("PRIVMSG", chan + " :"+ri.getTitle() + ", " + ri.getLink());
                         i++;
                     }
                 }
-            }
+
         } catch (GeneralSecurityException e) {
-            e.printStackTrace();
-        } finally{ System.out.println("Error");}
+            e.printStackTrace();  }
+
+            //finally{ write("PRIVMSG",chan + " :"+"Unknown error");}
 
     }
 }
