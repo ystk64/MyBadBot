@@ -10,6 +10,7 @@ public class Commands {
 
     public static String[] commandParts;
     public static String chan;
+
     public static void testReply(String input) {
 
 try {

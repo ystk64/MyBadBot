@@ -49,6 +49,9 @@ public class BotsBuildBots {
             else if(serverMessage.contains("@google") || serverMessage.contains("@wiki") || serverMessage.contains("@yt")){
                 Google.Google(serverMessage);
             }
+            else if(serverMessage.contains("@rot13")){
+                Roti.Roti(serverMessage);
+            }
         }
 
         in.close();
