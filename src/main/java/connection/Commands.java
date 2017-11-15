@@ -3,6 +3,7 @@ package connection;
 import static connection.BotsBuildBots.channel;
 import static connection.BotsBuildBots.write;
 
+
 public class Commands {
 
 
@@ -15,17 +16,19 @@ public class Commands {
             // command en parameter scheiden
             commandParts = substr.split(" ", 2);
             if (commandParts[0].equals("@test")) {
+                String str = channel + " " + "Test geslaagd";
                 System.out.println(commandParts[0]);
-                write("PRIVMSG", channel + " "+ "Test geslaagd");
+                write("PRIVMSG", str);
             }
-               else if(commandParts[0].equals("@reverse")){
+            else if(commandParts[0].equals("@reverse")){
                     String reversed = new StringBuilder(commandParts[1]).reverse().toString();
                 System.out.println(commandParts[1]);
-                    write("PRIVMSG",  channel + " Reversed: " + reversed);
+                String rstr = channel + " " + "Reversed: " + reversed;
+                write("PRIVMSG",rstr);
                 }
         }
         catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("String part 1: " + commandParts[1] + "\n String part 2: " + commandParts[1]);
+            System.out.println("Out of bounds.\nString part 1: " + commandParts[1] + "\n String part 2: " + commandParts[1]);
         }
     }
 }

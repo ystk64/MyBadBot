@@ -11,7 +11,8 @@ public class BotsBuildBots {
     public static PrintWriter out;
     public static Scanner in;
     public static String serverMessage;
-    public static String channel = "##w3tutorial";
+    public static String channel = "#jsldfkjsdlfk";
+    public String searchquery;
 
 
     public static void main(String[] args) throws IOException {
@@ -26,6 +27,7 @@ public class BotsBuildBots {
 
 
         if(!channel.startsWith("#")) {
+            System.out.println("Channel has to start with #. Changing...");
             channel = "#" + channel;
         }
 
@@ -39,12 +41,18 @@ public class BotsBuildBots {
         while(in.hasNext()) {
             serverMessage = in.nextLine();
             System.out.println("<<< " + serverMessage);
-            if(serverMessage.contains("PRIVMSG") && serverMessage.contains("@")){
+            if(serverMessage.contains("/NAMES")) {
+                write("PRIVMSG", channel + " Dit is een teststring");
+            }
+            else if(serverMessage.contains("@reverse") || serverMessage.contains("@test")){
                 Commands.testReply(serverMessage);
             }
-            if (serverMessage.startsWith("PING")){
+            else if (serverMessage.startsWith("PING")){
                 String ping = serverMessage.split(" ", 2)[1];
                 write("PONG", ping);
+            }
+            else if(serverMessage.contains("@google")){
+                Google.Google(serverMessage);
             }
         }
 
@@ -56,7 +64,7 @@ public class BotsBuildBots {
     public static void write(String command, String message) throws NullPointerException {
         String fullMessage = command + " " + message;
         System.out.println(">>> " + fullMessage);
-        out.print(fullMessage + "\r\n");
+        out.print(fullMessage + "\r");
         out.flush();
     }
 }
