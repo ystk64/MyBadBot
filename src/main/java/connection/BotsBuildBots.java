@@ -46,7 +46,7 @@ public class BotsBuildBots {
                 String ping = serverMessage.split(" ", 2)[1];
                 write("PONG", ping);
             }
-            else if(serverMessage.contains("@google") || serverMessage.contains("@wiki")){
+            else if(serverMessage.contains("@google") || serverMessage.contains("@wiki") || serverMessage.contains("@yt")){
                 Google.Google(serverMessage);
             }
         }

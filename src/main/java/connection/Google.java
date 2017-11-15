@@ -34,10 +34,13 @@ public class Google {
         try {
             String searchQuery = commandParts[1]; //The query to search
             if(input.contains("@google")) {
-                cx = "017159970878171620157:lk-ss4cvtek"; //Google custom search - whole web
+                cx="017159970878171620157:lk-ss4cvtek"; //Google custom search - whole web
             }
-            else {
+            else if(input.contains("@wiki")){
                 cx="000333651083524450345:g2hhfhdhsgw"; // Custom search - wikipedia only
+            }
+            else if(input.contains("@yt")){
+                cx="000333651083524450345:wjjhz5e9u3w"; // Custom search - yt only
             }
 
             //Instance Customsearch
