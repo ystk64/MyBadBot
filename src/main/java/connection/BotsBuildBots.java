@@ -1,4 +1,5 @@
 package connection;
+
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Scanner;
@@ -12,7 +13,7 @@ public class BotsBuildBots {
     public static Scanner in;
     public static String serverMessage;
     public static String channel = "##w3tutorial";
-    public static final String channel1= "#jsldfkjsdlfk";
+    public static final String channel1= "#TokingAspies";
 
     public static void main(String[] args) throws IOException {
         Scanner console = new Scanner(System.in);
@@ -51,6 +52,10 @@ public class BotsBuildBots {
             }
             else if(serverMessage.contains("@rot13")){
                 Roti.Roti(serverMessage);
+            }
+            else if((serverMessage.contains(channel) || serverMessage.contains(channel1)) && (serverMessage.contains("http://") || serverMessage.contains("https://") || serverMessage.contains("www."))){
+                Parser.parseHtml(serverMessage);
+
             }
         }
 

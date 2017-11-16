@@ -7,7 +7,6 @@ import static connection.BotsBuildBots.write;
 
 public class Commands {
 
-
     public static String[] commandParts;
     public static String chan;
 
