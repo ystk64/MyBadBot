@@ -16,9 +16,10 @@ public class BotsBuildBots {
     public static String serverMessage;
     public static String channel = "##w3tutorial";
     public static String channel1= "##testingbadbot";
+    public static int start;
 
     public static void main(String[] args) throws IOException, IllegalStateException {
-        int start = (int) System.currentTimeMillis();
+        start = (int) System.currentTimeMillis();
         Scanner console = new Scanner(System.in);
         System.out.println("Enter nickname");
         nick = console.nextLine();
@@ -62,16 +63,7 @@ public class BotsBuildBots {
             } else if ((serverMessage.contains(channel) || serverMessage.contains(channel1)) && (serverMessage.contains("http://") || serverMessage.contains("https://") || serverMessage.contains("www."))) {
                 Parser.parseHtml(serverMessage);
             } else if (serverMessage.contains("@uptime")) {
-                int current = (int) System.currentTimeMillis();
-                int delta = current - start;
-                int minutes = delta / 60000;
-                int hours = 0;
-                if (minutes > 60) {
-                    hours = minutes / 60;
-                    minutes = minutes % 60;
-                    write("PRIVMSG", chan + " :Uptime is: " + hours + " hours and " + minutes + " minutes");
-                }
-                else write("PRIVMSG", chan + " :Uptime is: " + minutes + " minutes");
+                Uptime.time();
             }
 
             //in.close();
