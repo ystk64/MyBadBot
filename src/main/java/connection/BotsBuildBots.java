@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Scanner;
 
+import static connection.Commands.chan;
+
 public class BotsBuildBots {
 
     public static String nick;
@@ -13,18 +15,19 @@ public class BotsBuildBots {
     public static Scanner in;
     public static String serverMessage;
     public static String channel = "##w3tutorial";
-    public static final String channel1= "#TokingAspies";
+    public static String channel1= "##testingbadbot";
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, IllegalStateException {
+        int start = (int) System.currentTimeMillis();
         Scanner console = new Scanner(System.in);
         System.out.println("Enter nickname");
         nick = console.nextLine();
-      //  System.out.println("Enter username");
-       // username = console.nextLine();
-       // System.out.println("Enter real name");
-       // realName = console.nextLine();
+        //System.out.println("Enter username");
+        //username = console.nextLine();
+        //System.out.println("Enter real name");
+        //realName = console.nextLine();
 
-        if(!channel.startsWith("#")) {
+        if (!channel.startsWith("#")) {
             System.out.println("Channel has to start with #. Changing...");
             channel = "#" + channel;
         }
@@ -37,31 +40,44 @@ public class BotsBuildBots {
         write("JOIN", channel);
         write("JOIN", channel1);
 
-        while(in.hasNextLine()) {
+
+        while (in.hasNextLine()) {
             serverMessage = in.nextLine();
-            System.out.println("<<< " + serverMessage);
-            if(serverMessage.contains("@reverse") || serverMessage.contains("@test")){
-                Commands.testReply(serverMessage);
+            if (serverMessage.contains(channel)) {
+                chan = channel;
+            } else if (serverMessage.contains(channel1)) {
+                chan = channel1;
             }
-            else if (serverMessage.startsWith("PING")){
+            System.out.println("<<< " + serverMessage);
+            if (serverMessage.contains("@reverse") || serverMessage.contains("@test")) {
+                Commands.testReply(serverMessage);
+            } else if (serverMessage.startsWith("PING")) {
                 String ping = serverMessage.split(" ", 2)[1];
                 write("PONG", ping);
-            }
-            else if(serverMessage.contains("@google") || serverMessage.contains("@wiki") || serverMessage.contains("@yt")){
+                write("ACTION", chan + " :" + "meows");
+            } else if (serverMessage.contains("@google") || serverMessage.contains("@wiki") || serverMessage.contains("@yt")) {
                 Google.Google(serverMessage);
-            }
-            else if(serverMessage.contains("@rot13")){
+            } else if (serverMessage.contains("@rot13")) {
                 Roti.Roti(serverMessage);
-            }
-            else if((serverMessage.contains(channel) || serverMessage.contains(channel1)) && (serverMessage.contains("http://") || serverMessage.contains("https://") || serverMessage.contains("www."))){
+            } else if ((serverMessage.contains(channel) || serverMessage.contains(channel1)) && (serverMessage.contains("http://") || serverMessage.contains("https://") || serverMessage.contains("www."))) {
                 Parser.parseHtml(serverMessage);
-
+            } else if (serverMessage.contains("@uptime")) {
+                int current = (int) System.currentTimeMillis();
+                int delta = current - start;
+                int minutes = delta / 60000;
+                int hours = 0;
+                if (minutes > 60) {
+                    hours = minutes / 60;
+                    minutes = minutes % 60;
+                    write("PRIVMSG", chan + " :Uptime is: " + hours + " hours and " + minutes + " minutes");
+                }
+                else write("PRIVMSG", chan + " :Uptime is: " + minutes + " minutes");
             }
-        }
 
-        in.close();
-        out.close();
-        System.out.println("Done!");
+            //in.close();
+            //out.close();
+            //System.out.println("Done!");
+        }
     }
 
     public static void write(String command, String message) {

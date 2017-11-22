@@ -6,9 +6,7 @@ import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 
-import static connection.BotsBuildBots.channel;
-import static connection.BotsBuildBots.channel1;
-import static connection.BotsBuildBots.write;
+import static connection.BotsBuildBots.*;
 import static connection.Commands.chan;
 
 public class Parser {
@@ -26,14 +24,18 @@ public class Parser {
         try {
             String substr = input.substring(input.indexOf("http"));
             String[] link = substr.split(" ", 2);
-            String hyperlink = link[0];
+            hyperlink = link[0];
             System.out.println("link: " + hyperlink);
             if (!StringUtil.isBlank(hyperlink)) {
+                try{ Thread.sleep(1000);
+                }catch(InterruptedException sl){
+                    System.out.println("Caught InterruptedException");
+                }
                 Document doc = Jsoup.connect(hyperlink).get();
                 write("PRIVMSG", chan + " :"+ doc.title());
             }
         } catch (StringIndexOutOfBoundsException siobe) {
             System.out.println("invalid input");
-            }
+        }
     }
 }
