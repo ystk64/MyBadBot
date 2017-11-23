@@ -5,14 +5,14 @@ import static connection.BotsBuildBots.channel1;
 import static connection.BotsBuildBots.write;
 
 
-public class Commands {
+class Commands {
 
-    public static String[] commandParts;
-    public static String chan;
+    private static String[] commandParts;
+    static String chan;
 
-    public static void testReply(String input) {
+    static void testReply(String input) {
 
-try {
+        try {
             // inhoud van bericht ophalen
             if(input.contains(channel)) {
                 chan = channel;

@@ -4,13 +4,11 @@ import static connection.BotsBuildBots.channel;
 import static connection.BotsBuildBots.channel1;
 import static connection.BotsBuildBots.write;
 
-public class Roti {
-    static char c;
-    public static String chan;
-    public static String[] commandParts;
+class Roti {
+    private static String chan;
 
 
-    public static void Roti(String input) {
+    protected Roti(String input) {
         if (input.contains(channel)) {
             chan = channel;
         } else if (input.contains(channel1)) {
@@ -23,11 +21,11 @@ public class Roti {
 
 
         // command en parameter scheiden
-        commandParts = substr.split(" ", 2);
+        String[] commandParts = substr.split(" ", 2);
 
         String s = null;
         for (int i = 0; i < substr.length(); i++) {
-            c = input.charAt(i);
+            char c = input.charAt(i);
             if (c - 26 > 0) {
                 c += 13;
             } else {

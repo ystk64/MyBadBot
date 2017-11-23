@@ -8,15 +8,15 @@ import static connection.Commands.chan;
 
 public class BotsBuildBots {
 
-    public static String nick;
-    public static String username;
-    public static String realName;
-    public static PrintStream out;
-    public static Scanner in;
-    public static String serverMessage;
-    public static String channel = "##w3tutorial";
-    public static String channel1= "##testingbadbot";
-    public static int start;
+    static String nick;
+    static String username;
+    static String realName;
+    static PrintStream out;
+    static Scanner in;
+    static String serverMessage;
+    static String channel = "##w3tutorial";
+    static String channel1= "##testingbadbot";
+    static int start;
 
     public static void main(String[] args) throws IOException, IllegalStateException {
         start = (int) System.currentTimeMillis();
@@ -58,8 +58,6 @@ public class BotsBuildBots {
                 write("ACTION", chan + " :" + "meows");
             } else if (serverMessage.contains("@google") || serverMessage.contains("@wiki") || serverMessage.contains("@yt")) {
                 Google.Google(serverMessage);
-            } else if (serverMessage.contains("@rot13")) {
-                Roti.Roti(serverMessage);
             } else if ((serverMessage.contains(channel) || serverMessage.contains(channel1)) && (serverMessage.contains("http://") || serverMessage.contains("https://") || serverMessage.contains("www."))) {
                 Parser.parseHtml(serverMessage);
             } else if (serverMessage.contains("@uptime")) {
@@ -72,7 +70,7 @@ public class BotsBuildBots {
         }
     }
 
-    public static void write(String command, String message) {
+    static void write(String command, String message) {
         String fullMessage = command + " " + message;
         System.out.println(">>> " + fullMessage);
         out.print(fullMessage + "\n\r");

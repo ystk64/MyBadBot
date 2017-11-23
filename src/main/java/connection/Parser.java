@@ -9,10 +9,10 @@ import java.io.IOException;
 import static connection.BotsBuildBots.*;
 import static connection.Commands.chan;
 
-public class Parser {
+class Parser {
 
-    public static String hyperlink;
-    public static void parseHtml(String input) throws IOException {
+    private static String hyperlink;
+    static void parseHtml(String input) throws IOException {
 
         if(input.contains(channel)) {
             chan = channel;

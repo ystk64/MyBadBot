@@ -15,11 +15,11 @@ import static connection.BotsBuildBots.channel1;
 import static connection.BotsBuildBots.write;
 import static connection.Commands.chan;
 
-public class Google {
-    public static String[] commandParts;
-    public static String cx;
+class Google {
+    private static String[] commandParts;
+    private static String cx;
 
-    public static void Google(String input) throws IOException {
+    static void Google(String input) throws IOException {
 
         if(input.contains(channel)) {
             chan = channel;
