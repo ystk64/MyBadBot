@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Scanner;
 
-import static connection.Commands.chan;
-
 public class BotsBuildBots {
 
     static String nick;
@@ -15,9 +13,10 @@ public class BotsBuildBots {
     static PrintStream out;
     static Scanner in;
     static String serverMessage;
-    static String channel = "##w3tutorial";
-    static String channel1= "#tokingaspies";
+    static final String channel = "##w3tutorial";
+    static final String channel1= "#TokingAspies";
     static int start;
+    static String chan;
 
     public static void main(String[] args) throws IOException, IllegalStateException, ParserConfigurationException, ClassCastException {
         start = (int) System.currentTimeMillis();
@@ -28,11 +27,6 @@ public class BotsBuildBots {
         //username = console.nextLine();
         //System.out.println("Enter real name");
         //realName = console.nextLine();
-
-        if (!channel.startsWith("#")) {
-            System.out.println("Channel has to start with #. Changing...");
-            channel = "#" + channel;
-        }
 
         Connect freenode = new Connect();
         freenode.createSocket("chat.freenode.net", 6667);
@@ -50,22 +44,22 @@ public class BotsBuildBots {
             } else if (serverMessage.contains(channel1)) {
                 chan = channel1;
             }
+
             System.out.println("<<< " + serverMessage);
             if (serverMessage.contains("@reverse") || serverMessage.contains("@test")) {
                 Commands.testReply(serverMessage);
             } else if (serverMessage.startsWith("PING")) {
                 String ping = serverMessage.split(" ", 2)[1];
                 write("PONG", ping);
-            } else if (serverMessage.contains("@meow")){
-                write("PRIVMSG", chan + " :" + "\001ACTION " + "meows" +"\001");
+            } else if (serverMessage.contains("@meow")) {
+                write("PRIVMSG", chan + " :" + "\001ACTION " + "meows" + "\001");
             } else if (serverMessage.contains("@google") || serverMessage.contains("@wiki") || serverMessage.contains("@yt")) {
                 Google.Google(serverMessage);
             } else if ((serverMessage.contains(channel) || serverMessage.contains(channel1)) && (serverMessage.contains("http://") || serverMessage.contains("https://") || serverMessage.contains("www."))) {
                 Parser.parseHTML(serverMessage);
             } else if (serverMessage.contains("@uptime")) {
                 Uptime.time();
-            }
-            else if(serverMessage.contains("@weather")){
+            } else if (serverMessage.contains("@weather")) {
                 Weather.getWeatherXML(serverMessage);
             }
             //else if(serverMessage.contains("@sun")){

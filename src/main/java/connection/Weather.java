@@ -23,18 +23,15 @@ public class Weather {
         String inputCity = link[1];
         String apikey = "4a52f52fd0bc4c6542cb49f115fda173";
         StringBuilder queryBuild = new StringBuilder();
-        System.out.println("Query before adding link: " + queryBuild);
         queryBuild.append("http://api.openweathermap.org/data/2.5/weather?q=");
         queryBuild.append(inputCity);
         queryBuild.append("&appid=" + apikey);
         queryBuild.append("&mode=xml");
 
         query = queryBuild + "";
-        System.out.println("Query: " + query);
 
         Parser.parseXML(query);
-        System.out.println(weatherReport);
-        write("PRIVMSG", chan + " :" + weatherReport);
 
+        write("PRIVMSG", chan + " :" + weatherReport);
     }
 }

@@ -49,9 +49,9 @@ public class Parser {
         }
     }
 
-
-
     public static void parseXML(String input) throws IOException, ParserConfigurationException {
+
+        System.out.println(chan);
 
         XPath xPath =  XPathFactory.newInstance().newXPath();
         String cityX = "/current/city/@name";
