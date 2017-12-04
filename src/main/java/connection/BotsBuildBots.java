@@ -1,5 +1,6 @@
 package connection;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Scanner;
@@ -15,10 +16,10 @@ public class BotsBuildBots {
     static Scanner in;
     static String serverMessage;
     static String channel = "##w3tutorial";
-    static String channel1= "##testingbadbot";
+    static String channel1= "#tokingaspies";
     static int start;
 
-    public static void main(String[] args) throws IOException, IllegalStateException {
+    public static void main(String[] args) throws IOException, IllegalStateException, ParserConfigurationException, ClassCastException {
         start = (int) System.currentTimeMillis();
         Scanner console = new Scanner(System.in);
         System.out.println("Enter nickname");
@@ -55,14 +56,22 @@ public class BotsBuildBots {
             } else if (serverMessage.startsWith("PING")) {
                 String ping = serverMessage.split(" ", 2)[1];
                 write("PONG", ping);
-                write("ACTION", chan + " :" + "meows");
+            } else if (serverMessage.contains("@meow")){
+                write("PRIVMSG", chan + " :" + "\001ACTION " + "meows" +"\001");
             } else if (serverMessage.contains("@google") || serverMessage.contains("@wiki") || serverMessage.contains("@yt")) {
                 Google.Google(serverMessage);
             } else if ((serverMessage.contains(channel) || serverMessage.contains(channel1)) && (serverMessage.contains("http://") || serverMessage.contains("https://") || serverMessage.contains("www."))) {
-                Parser.parseHtml(serverMessage);
+                Parser.parseHTML(serverMessage);
             } else if (serverMessage.contains("@uptime")) {
                 Uptime.time();
             }
+            else if(serverMessage.contains("@weather")){
+                Weather.getWeatherXML(serverMessage);
+            }
+            //else if(serverMessage.contains("@sun")){
+            //    Weather.getWeatherXML(serverMessage);
+            //    write("PRIVMSG", chan + " :" + Parser.sun);
+            // }
 
             //in.close();
             //out.close();
