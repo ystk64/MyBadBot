@@ -14,7 +14,7 @@ public class BotsBuildBots {
     static Scanner in;
     static String serverMessage;
     static final String channel = "##w3tutorial";
-    static final String channel1= "#TokingAspies";
+    static final String channel1= "##testingbadbot";
     static int start;
     static String chan;
 
@@ -60,8 +60,10 @@ public class BotsBuildBots {
             } else if (serverMessage.contains("@uptime")) {
                 Uptime.time();
             } else if (serverMessage.contains("@weather")) {
-                Weather.getWeatherXML(serverMessage);
-            }
+                    Weather.getWeatherXML(serverMessage);
+                }
+
+
             //else if(serverMessage.contains("@sun")){
             //    Weather.getWeatherXML(serverMessage);
             //    write("PRIVMSG", chan + " :" + Parser.sun);

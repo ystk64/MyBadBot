@@ -16,24 +16,16 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.text.DecimalFormat;
 
+import static connection.BotsBuildBots.chan;
 import static connection.BotsBuildBots.*;
-import static connection.Commands.chan;
+import static connection.Weather.document;
 import static connection.Weather.query;
 
 public class Parser {
     static String weatherReport;
     static String sun;
-    static org.w3c.dom.Document document;
 
     public static void parseHTML(String input) throws IOException {
-
-        if(input.contains(channel)) {
-            chan = channel;
-        }
-        else if(input.contains(channel1)){
-            chan = channel1;
-        }
-
         try {
             String substr = input.substring(input.indexOf("http"));
             String[] link = substr.split(" ", 2);
@@ -63,18 +55,7 @@ public class Parser {
         String windDirectionX = "/current/wind/direction/@name";
         String sunriseX = "/current/city/sun/@rise";
         String sunsetX = "/current/city/sun/@set";
-
-        try {
-            URL url = new URL(input);
-            URLConnection conn = url.openConnection();
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            document = db.parse(conn.getInputStream());
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        String norainX = "/current/weather/@value";
 
         try {
             String city = xPath.compile(cityX).evaluate(document);
@@ -86,16 +67,17 @@ public class Parser {
             String windDirection = xPath.compile(windDirectionX).evaluate(document);
             String sunrise = xPath.compile(sunriseX).evaluate(document);
             String sunset = xPath.compile(sunsetX).evaluate(document);
+            String rain = xPath.compile(norainX).evaluate(document);
 
             DecimalFormat df = new DecimalFormat("#.#");
             double degreesCdouble = Double.parseDouble(degreesF) - 273.15;
-            double degreesFa = Double.parseDouble(degreesF) * 9/5 - 459.67;
+            double degreesFa = Double.parseDouble(degreesF) * 9 / 5 - 459.67;
 
-            weatherReport = "Weather for " + city + ", " + country + ": " + df.format(degreesFa)+ "F/" + df.format(degreesCdouble) + "C; " + humidity + "% humidity and " + state + ". Wind: " + windDescription + ", coming from the " + windDirection + ". " +query;
-            sun = "Sunrise is at " + sunrise + " and sunset is at " + sunset +".";
+            weatherReport = "Weather for " + city + ", " + country + ": " + df.format(degreesFa) + "F/" + df.format(degreesCdouble) + "C; " + rain + " with " + humidity + "% humidity and " + state + ". Wind: " + windDescription + ", coming from the " + windDirection + ". " + query;
+            sun = "Sunrise is at " + sunrise + " and sunset is at " + sunset + ".";
 
 
-        } catch (XPathExpressionException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             write("PRIVMSG", chan +" :" + "Error getting results");
         }
