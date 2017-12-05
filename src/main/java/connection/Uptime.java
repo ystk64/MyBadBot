@@ -1,6 +1,6 @@
 package connection;
 import static connection.BotsBuildBots.*;
-import static connection.Commands.chan;
+import static connection.BotsBuildBots.chan;
 
 class Uptime {
 

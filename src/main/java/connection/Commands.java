@@ -1,28 +1,15 @@
 package connection;
 
-import static connection.BotsBuildBots.channel;
-import static connection.BotsBuildBots.channel1;
 import static connection.BotsBuildBots.write;
-
+import static connection.BotsBuildBots.chan;
 
 class Commands {
 
     private static String[] commandParts;
-    static String chan;
 
     static void testReply(String input) {
 
         try {
-            // inhoud van bericht ophalen
-            if(input.contains(channel)) {
-                chan = channel;
-            }
-            else if(input.contains(channel1)){
-                chan = channel1;
-            }
-
-            System.out.println("chan: "+chan);
-
             String substr = input.substring(input.indexOf(chan) + chan.length() + 2);
 
 

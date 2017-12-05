@@ -13,7 +13,7 @@ import java.security.GeneralSecurityException;
 import static connection.BotsBuildBots.channel;
 import static connection.BotsBuildBots.channel1;
 import static connection.BotsBuildBots.write;
-import static connection.Commands.chan;
+import static connection.BotsBuildBots.chan;
 
 class Google {
     private static String[] commandParts;

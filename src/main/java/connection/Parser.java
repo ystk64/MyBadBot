@@ -3,23 +3,16 @@ package connection;
 import org.jsoup.Jsoup;
 import org.jsoup.helper.StringUtil;
 import org.jsoup.nodes.Document;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import java.io.IOException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.text.DecimalFormat;
 
 import static connection.BotsBuildBots.chan;
-import static connection.BotsBuildBots.*;
+import static connection.BotsBuildBots.write;
 import static connection.Weather.document;
-import static connection.Weather.query;
 
 public class Parser {
     static String weatherReport;
@@ -55,7 +48,7 @@ public class Parser {
         String windDirectionX = "/current/wind/direction/@name";
         String sunriseX = "/current/city/sun/@rise";
         String sunsetX = "/current/city/sun/@set";
-        String norainX = "/current/weather/@value";
+        String rainX = "/current/precipitation/@mode";
 
         try {
             String city = xPath.compile(cityX).evaluate(document);
@@ -67,13 +60,14 @@ public class Parser {
             String windDirection = xPath.compile(windDirectionX).evaluate(document);
             String sunrise = xPath.compile(sunriseX).evaluate(document);
             String sunset = xPath.compile(sunsetX).evaluate(document);
-            String rain = xPath.compile(norainX).evaluate(document);
+
+            String rain = xPath.compile(rainX).evaluate(document);
 
             DecimalFormat df = new DecimalFormat("#.#");
             double degreesCdouble = Double.parseDouble(degreesF) - 273.15;
             double degreesFa = Double.parseDouble(degreesF) * 9 / 5 - 459.67;
 
-            weatherReport = "Weather for " + city + ", " + country + ": " + df.format(degreesFa) + "F/" + df.format(degreesCdouble) + "C; " + rain + " with " + humidity + "% humidity and " + state + ". Wind: " + windDescription + ", coming from the " + windDirection + ". " + query;
+            weatherReport = "Weather for " + city + ", " + country + ": " + df.format(degreesFa) + "F/" + df.format(degreesCdouble) + "C; "+  humidity + "% humidity and " + state + ". Wind: " + windDescription + ", coming from the " + windDirection + ". ";
             sun = "Sunrise is at " + sunrise + " and sunset is at " + sunset + ".";
 
 

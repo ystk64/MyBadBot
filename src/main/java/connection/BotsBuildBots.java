@@ -5,6 +5,10 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Scanner;
 
+import static connection.Memo.memoHasMessage;
+import static connection.Memo.memoIsFor;
+import static connection.Memo.reply;
+
 public class BotsBuildBots {
 
     static String nick;
@@ -60,8 +64,13 @@ public class BotsBuildBots {
             } else if (serverMessage.contains("@uptime")) {
                 Uptime.time();
             } else if (serverMessage.contains("@weather")) {
-                    Weather.getWeatherXML(serverMessage);
-                }
+                Weather.getWeatherXML(serverMessage);
+            } else if(serverMessage.contains("@note")){
+                Memo.sendMessage(serverMessage);
+            } else if((memoHasMessage == true) && (serverMessage.contains(memoIsFor))){
+                write("PRIVMSG", chan + " :" + reply);
+                memoHasMessage = false;
+            }
 
 
             //else if(serverMessage.contains("@sun")){
